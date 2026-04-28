@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katib Firdous — Client Management Professional</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F1EB;
+    --bg2: #EDE8DF;
+    --charcoal: #2D2D2D;
+    --charcoal-light: #5A5A5A;
+    --gold: #B8956A;
+    --gold-light: #D4AF89;
+    --gold-pale: #F0E6D8;
+    --white: #FDFAF6;
+    --border: #DDD5C8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--bg);
+    color: var(--charcoal);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 5%;
+    background: rgba(245,241,235,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(184,149,106,.12); }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700;
+    color: var(--charcoal); letter-spacing: .02em;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--charcoal-light); text-decoration: none; font-weight: 700;
+    position: relative; padding-bottom: 2px;
+    transition: color .3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width .3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 1.5px; background: var(--charcoal); transition: all .3s; }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    background: linear-gradient(135deg, #F5F1EB 0%, #EDE8DF 40%, #E4DDD3 70%, #DDD5C8 100%);
+    padding: 7rem 5% 5rem;
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; top: -120px; right: -80px;
+    width: 520px; height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,149,106,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #hero::after {
+    content: '';
+    position: absolute; bottom: -80px; left: 10%;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,149,106,.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 780px;
+    animation: fadeUp .9s ease both;
+  }
+  .hero-eyebrow {
+    font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: inline-block;
+    width: 32px; height: 1px; background: var(--gold);
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 700; line-height: 1.12;
+    color: var(--charcoal); margin-bottom: 1rem;
+  }
+  h1 .accent { color: var(--gold); font-style: italic; }
+  .hero-tagline {
+    font-size: 1.15rem; color: var(--charcoal-light);
+    font-style: italic; font-family: 'Playfair Display', serif;
+    margin-bottom: 1.8rem; font-weight: 400;
+  }
+  .hero-tagline::before { content: '"'; color: var(--gold); }
+  .hero-tagline::after  { content: '"'; color: var(--gold); }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 1.2rem;
+    margin-bottom: 2.6rem;
+  }
+  .hero-meta-item {
+    display: flex; align-items: center; gap: .45rem;
+    font-size: .83rem; color: var(--charcoal-light); font-weight: 400;
+  }
+  .hero-meta-item svg { color: var(--gold); flex-shrink: 0; }
+  .cta-btn {
+    display: inline-block; padding: .9rem 2.4rem;
+    background: var(--gold); color: var(--white);
+    font-size: .82rem; letter-spacing: .14em; text-transform: uppercase;
+    font-weight: 700; text-decoration: none;
+    border-radius: 50px;
+    transition: background .3s, transform .2s, box-shadow .3s;
+    box-shadow: 0 4px 20px rgba(184,149,106,.35);
+  }
+  .cta-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(184,149,106,.45);
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 6rem 5%; }
+  .section-inner { max-width: 900px; margin: 0 auto; }
+  .section-label {
+    font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: .6rem;
+    display: flex; align-items: center; gap: .7rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+    max-width: 80px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--charcoal); margin-bottom: 2.5rem; line-height: 1.2;
+  }
+
+  /* ─── ABOUT ─── */
+  #about { background: var(--white); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: start;
+  }
+  .about-text p {
+    color: var(--charcoal-light); margin-bottom: 1.2rem; font-size: .97rem;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .stat-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem;
+    text-align: center;
+    transition: border-color .3s, box-shadow .3s;
+  }
+  .stat-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 4px 20px rgba(184,149,106,.12);
+  }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--charcoal-light); margin-top: .4rem;
+  }
+
+  /* ─── EXPERIENCE ─── */
+  #experience { background: var(--bg); }
+  .timeline { position: relative; padding-left: 2.5rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: .45rem; top: 6px;
+    bottom: 0; width: 1px; background: var(--border);
+  }
+  .tl-item {
+    position: relative; margin-bottom: 2.6rem;
+    opacity: 0; transform: translateX(-20px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .tl-item.visible { opacity: 1; transform: translateX(0); }
+  .tl-dot {
+    position: absolute; left: -2.5rem; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 4px var(--gold-pale);
+  }
+  .tl-header {
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    gap: .6rem; margin-bottom: .3rem;
+  }
+  .tl-company {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 600; color: var(--charcoal);
+  }
+  .tl-period {
+    font-size: .75rem; letter-spacing: .1em;
+    color: var(--gold); font-weight: 700;
+    background: var(--gold-pale); padding: .2rem .7rem;
+    border-radius: 20px;
+  }
+  .tl-role {
+    font-size: .88rem; color: var(--gold); font-weight: 700;
+    letter-spacing: .06em; margin-bottom: .9rem;
+    text-transform: uppercase;
+  }
+  .tl-list {
+    list-style: none; display: flex; flex-direction: column; gap: .5rem;
+  }
+  .tl-list li {
+    font-size: .9rem; color: var(--charcoal-light);
+    padding-left: 1.2rem; position: relative;
+  }
+  .tl-list li::before {
+    content: '—'; position: absolute; left: 0;
+    color: var(--gold); font-size: .75rem;
+  }
+
+  /* ─── SKILLS ─── */
+  #skills { background: var(--white); }
+  .skills-grid {
+    display: flex; flex-wrap: wrap; gap: .75rem;
+  }
+  .skill-pill {
+    padding: .55rem 1.4rem;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    font-size: .82rem; letter-spacing: .08em;
+    color: var(--charcoal); font-weight: 700;
+    background: transparent;
+    transition: border-color .3s, color .3s, background .3s, transform .2s;
+  }
+  .skill-pill:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-pale);
+    transform: translateY(-2px);
+  }
+
+  /* ─── EDUCATION ─── */
+  #education { background: var(--bg); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .edu-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    border-left: 3px solid var(--gold);
+    transition: box-shadow .3s, transform .3s;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .6s ease, transform .6s ease, box-shadow .3s, border-color .3s;
+  }
+  .edu-card.visible { opacity: 1; transform: translateY(0); }
+  .edu-card:hover { box-shadow: 0 8px 32px rgba(184,149,106,.15); }
+  .edu-badge {
+    font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700;
+    background: var(--gold-pale); padding: .25rem .75rem;
+    border-radius: 20px; display: inline-block; margin-bottom: .9rem;
+  }
+  .edu-degree {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 600; color: var(--charcoal);
+    margin-bottom: .3rem;
+  }
+  .edu-inst {
+    font-size: .85rem; color: var(--charcoal-light); margin-bottom: .2rem;
+  }
+  .edu-year {
+    font-size: .78rem; color: var(--gold); font-weight: 700;
+  }
+
+  /* ─── CONTACT ─── */
+  #contact { background: var(--charcoal); }
+  #contact .section-label { color: var(--gold-light); }
+  #contact .section-label::after { background: linear-gradient(to right, rgba(255,255,255,.15), transparent); }
+  #contact h2 { color: var(--white); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
+  .contact-info p { color: rgba(255,255,255,.6); font-size: .92rem; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: .8rem;
+    text-decoration: none; color: rgba(255,255,255,.75);
+    font-size: .9rem; padding: .8rem 1.2rem;
+    border: 1px solid rgba(255,255,255,.1); border-radius: 10px;
+    transition: border-color .3s, color .3s, background .3s;
+  }
+  .contact-link:hover {
+    border-color: var(--gold); color: var(--gold);
+    background: rgba(184,149,106,.1);
+  }
+  .contact-link svg { color: var(--gold); flex-shrink: 0; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: .4rem; }
+  .form-group label {
+    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.5); font-weight: 700;
+  }
+  .form-group input,
+  .form-group textarea {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px; padding: .85rem 1.1rem;
+    color: var(--white); font-family: 'Lato', sans-serif;
+    font-size: .9rem; outline: none;
+    transition: border-color .3s, background .3s;
+    resize: vertical;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(255,255,255,.25); }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+    background: rgba(184,149,106,.08);
+  }
+  .submit-btn {
+    padding: .9rem 2.2rem; background: var(--gold);
+    color: var(--white); border: none; border-radius: 50px;
+    font-family: 'Lato', sans-serif;
+    font-size: .82rem; letter-spacing: .14em; text-transform: uppercase;
+    font-weight: 700; cursor: pointer;
+    transition: background .3s, transform .2s, box-shadow .3s;
+    box-shadow: 0 4px 20px rgba(184,149,106,.3);
+    align-self: flex-start;
+  }
+  .submit-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(184,149,106,.45);
+  }
+  .form-success {
+    display: none; text-align: center; color: var(--gold-light);
+    font-style: italic; font-family: 'Playfair Display', serif;
+    font-size: 1rem; padding: 1rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #1E1E1E; color: rgba(255,255,255,.35);
+    text-align: center; padding: 1.5rem 5%;
+    font-size: .78rem; letter-spacing: .06em;
+  }
+  footer span { color: var(--gold); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── MOBILE ─── */
+  @media(max-width: 768px) {
+    .nav-links {
+      display: none; flex-direction: column; gap: 1.5rem;
+      position: fixed; top: 0; right: 0; bottom: 0; width: 70%;
+      max-width: 280px; background: var(--white);
+      padding: 5rem 2rem 2rem; box-shadow: -4px 0 30px rgba(0,0,0,.1);
+      z-index: 200; transform: translateX(100%); transition: transform .35s;
+    }
+    .nav-links.open { display: flex; transform: translateX(0); }
+    .hamburger { display: flex; z-index: 300; }
+    .about-grid, .contact-grid, .edu-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">Katib <span>Firdous</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about" onclick="closeNav()">About</a></li>
+    <li><a href="#experience" onclick="closeNav()">Experience</a></li>
+    <li><a href="#skills" onclick="closeNav()">Skills</a></li>
+    <li><a href="#education" onclick="closeNav()">Education</a></li>
+    <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Client Management Professional</div>
+    <h1>Katib<br><span class="accent">Firdous</span></h1>
+    <p class="hero-tagline">Finding clients that grow your business</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Delhi &amp; Noida
+      </div>
+      <div class="hero-meta-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.06 6.06l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +91 9205030706
+      </div>
+      <div class="hero-meta-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        katibfirdous26@gmail.com
+      </div>
+    </div>
+    <a href="#contact" class="cta-btn">Let's Connect</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">Who I Am</div>
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <h2>Building relationships,<br><em>one client at a time</em></h2>
+        <p>I'm Katib Firdous, a 21-year-old Sales & Client Coordination Manager based in Delhi/Noida. I specialise in managing the full client lifecycle — from the first call right through to delivery and installation.</p>
+        <p>Currently with Zaara Enterprises, I bridge the gap between clients and production teams, ensuring every order is handled with precision, transparency, and care. My approach combines structured process discipline with genuine relationship-building.</p>
+        <p>My background in Political Science sharpens my ability to read people and negotiate effectively — a surprisingly powerful combination in sales and client management.</p>
+      </div>
+      <div class="about-stats fade-up" style="transition-delay:.15s">
+        <div class="stat-card">
+          <div class="stat-number">1+</div>
+          <div class="stat-label">Year Experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">9</div>
+          <div class="stat-label">Process Areas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Client-First</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">8+</div>
+          <div class="stat-label">Core Skills</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label fade-up">Career</div>
+    <h2 class="fade-up">Work Experience</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header">
+          <span class="tl-company">Zaara Enterprises</span>
+          <span class="tl-period">2026 — Present</span>
+        </div>
+        <div class="tl-role">Sales &amp; Client Coordination Manager</div>
+        <ul class="tl-list">
+          <li>Receiving inbound client calls and conducting detailed requirements discussions</li>
+          <li>Managing requirement forms via WhatsApp; collecting filled forms with client Email IDs</li>
+          <li>Preparing and sending complete quotations (including freight) to clients via Email</li>
+          <li>Recording and coordinating client payment transaction details through email documentation</li>
+          <li>Coordinating artwork and drawing preparation; sending for client approval and CC'ing Honda Team; securing written sign-off</li>
+          <li>Forwarding approved orders to production and actively tracking progress milestones</li>
+          <li>Managing material dispatch logistics and coordinating on-site installation</li>
+          <li>Maintaining full email records for all payment and approval communications</li>
+          <li>Enforcing process compliance: no quotation without a completed details form; no production without written approval</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label fade-up">Expertise</div>
+    <h2 class="fade-up">Key Skills</h2>
+    <div class="skills-grid fade-up" style="transition-delay:.1s">
+      <span class="skill-pill">Sales</span>
+      <span class="skill-pill">Leadership</span>
+      <span class="skill-pill">Strategic Planning</span>
+      <span class="skill-pill">Communication</span>
+      <span class="skill-pill">Training &amp; Mentorship</span>
+      <span class="skill-pill">Market Research</span>
+      <span class="skill-pill">Problem Solving</span>
+      <span class="skill-pill">Negotiation</span>
+      <span class="skill-pill">Objection Handling</span>
+      <span class="skill-pill">Client Coordination</span>
+      <span class="skill-pill">Process Compliance</span>
+      <span class="skill-pill">Record Keeping</span>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label fade-up">Background</div>
+    <h2 class="fade-up">Education &amp; Certifications</h2>
+    <div class="edu-grid">
+      <div class="edu-card fade-up">
+        <span class="edu-badge">Degree</span>
+        <div class="edu-degree">BA Political Science</div>
+        <div class="edu-inst">Delhi University</div>
+        <div class="edu-year">2023</div>
+      </div>
+      <div class="edu-card fade-up" style="transition-delay:.15s">
+        <span class="edu-badge">Certification</span>
+        <div class="edu-degree">Web Designing</div>
+        <div class="edu-inst">Nipstec Institute</div>
+        <div class="edu-year">2021</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">Get In Touch</div>
+    <div class="contact-grid">
+      <div class="contact-info fade-up">
+        <h2>Let's start a<br><em>conversation</em></h2>
+        <p>Whether you're looking for a dedicated client coordinator or want to discuss a business opportunity, I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a class="contact-link" href="tel:+919205030706">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.06 6.06l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +91 9205030706
+          </a>
+          <a class="contact-link" href="mailto:katibfirdous26@gmail.com">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            katibfirdous26@gmail.com
+          </a>
+          <a class="contact-link" href="#">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Delhi &amp; Noida, India
+          </a>
+        </div>
+      </div>
+      <div class="contact-form fade-up" style="transition-delay:.15s">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="John Smith">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="+91 00000 00000">
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" rows="4" placeholder="Tell me about your requirements…"></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitForm()">Send Message</button>
+        <p class="form-success" id="formSuccess">Thank you — I'll be in touch shortly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 <span>Katib Firdous</span> &nbsp;·&nbsp; Sales &amp; Client Coordination Manager
+</footer>
+
+<script>
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Hamburger
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  function closeNav() {
+    document.getElementById('navLinks').classList.remove('open');
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-up, .tl-item, .edu-card').forEach(el => observer.observe(el));
+
+  // Form
+  function submitForm() {
+    const n = document.getElementById('name').value.trim();
+    const p = document.getElementById('phone').value.trim();
+    const m = document.getElementById('message').value.trim();
+    if (!n || !p || !m) { alert('Please fill in all fields.'); return; }
+    document.getElementById('formSuccess').style.display = 'block';
+    document.getElementById('name').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('message').value = '';
+  }
+</script>
+</body>
+</html>
